@@ -1,7 +1,12 @@
 import cfspider
-import requests
 
-worker_url = "ip.kami666.xyz"
-cf_response = cfspider.get("https://httpbin.org/ip", cf_proxies=worker_url)
+# 基本用法
+result = cfspider.mirror("https://www.baidu.com", open_browser=True)
+print(f"保存位置: {result.index_file}")
 
-print(cf_response.text)
+# 指定保存目录
+result = cfspider.mirror(
+    "https://www.baidu.com",
+    save_dir="./my_mirror",
+    open_browser=False
+)
