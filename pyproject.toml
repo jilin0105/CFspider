@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cfspider"
+version = "1.7.3"
+description = "Cloudflare Workers proxy IP pool client"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.8"
+authors = [
+    {name = "violettools", email = "violet@violetteam.cloud"}
+]
+keywords = ["cloudflare", "workers", "proxy", "spider"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "requests>=2.20.0",
+    "httpx[http2]>=0.25.0",
+    "curl_cffi>=0.5.0",
+    "beautifulsoup4>=4.9.0",
+]
+
+[project.optional-dependencies]
+browser = ["playwright>=1.40.0"]
+
+[project.scripts]
+cfspider = "cfspider.cli:main"
+
+[project.urls]
+Homepage = "https://spider.violetteam.cloud"
+Repository = "https://github.com/violettoolssite/CFspider"
+
+[tool.setuptools.packages.find]
+include = ["cfspider*"]
+
