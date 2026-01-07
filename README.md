@@ -2,6 +2,31 @@
 
 免费的代理 IP 池，利用 Cloudflare 全球 300+ 边缘节点作为出口，支持隐身模式、TLS 指纹模拟、网页镜像和浏览器自动化。
 
+## ⚡ 核心优势：动态 IP 池
+
+> **CFspider 是动态 IP 池**，每次请求可能使用不同的 Cloudflare IP，自动从 300+ 全球节点中选择最优节点。
+
+### 🎯 动态 IP 池的优势
+
+| 优势 | 说明 |
+|------|------|
+| **🛡️ 降低封禁风险** | IP 分散在 300+ 节点，单个 IP 被封不影响整体使用 |
+| **📈 提高成功率** | 自动选择最优节点，减少网络问题和连接失败 |
+| **🌍 地理分布** | 模拟真实用户的地理分布，请求更自然 |
+| **⚙️ 自动优化** | 根据目标网站位置和网络状况自动选择节点 |
+
+**与静态 IP 代理对比：**
+
+```python
+# 静态 IP 代理：固定 IP，容易被封
+proxies = {"http": "1.2.3.4:8080"}  # 固定 IP
+
+# CFspider 动态 IP 池：每次请求可能不同
+response = cfspider.get("https://example.com", cf_proxies="your-workers.dev")
+print(response.cf_colo)  # 可能显示 NRT, SIN, LAX 等不同节点
+# 每次请求可能使用不同的 Cloudflare IP
+```
+
 ## 📸 项目截图
 
 ### 官网首页
@@ -157,11 +182,13 @@ Cloudflare Workers 免费版每日 100,000 请求，无需信用卡，无需付�
 **工作流程：**
 1. 你的应用调用 `cfspider.get(url, cf_proxies="workers.dev")`
 2. CFspider 发送请求到你的 Cloudflare Workers
-3. Workers 从最近的边缘节点获取目标 URL
-4. 响应返回，目标网站看到的是 Cloudflare IP，而不是你的 IP
+3. Workers 自动路由到离目标网站最近的边缘节点（动态 IP 池）
+4. 每次请求可能使用不同的 Cloudflare IP（从 300+ 节点中选择）
+5. 响应返回，目标网站看到的是 Cloudflare IP，而不是你的 IP
 
 ## 特性
 
+- **动态 IP 池**：每次请求可能使用不同的 Cloudflare IP，从 300+ 全球节点自动选择
 - 使用 Cloudflare 全球 300+ 边缘节点 IP
 - 与 requests 库语法一致，无学习成本
 - 支持 GET、POST、PUT、DELETE 等所有 HTTP 方法
