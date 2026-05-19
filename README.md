@@ -86,26 +86,58 @@ r = cfspider.get("https://example.com", browser=True,
 print(r.js_result)      # 'Example Domain'
 ```
 
-### StealthSession — 会话复用
+### stealth=True 自动 session 复用（默认开启）
 
-复用同一 CloakBrowser 实例，自动保持 Cookie / Referer / TLS 指纹。
+`stealth=True` 会按**域名**自动复用同一个 CloakBrowser 实例：共享 Cookie、Referer、TLS 指纹，无需手动管理。
+
+```python
+# 首次请求 example.com → 创建 session
+r1 = cfspider.get("https://example.com/page1", stealth=True)
+
+# 同域名后续请求 → 自动复用（带 Cookie + Referer）
+r2 = cfspider.get("https://example.com/page2", stealth=True)
+r3 = cfspider.get("https://example.com/api/data", stealth=True)
+
+# 不同域名各自独立 session
+r4 = cfspider.get("https://other.com/", stealth=True)
+```
+
+**取消复用（每次全新 session）：**
+
+```python
+r = cfspider.get("https://example.com", stealth=True, no_sess=True)
+```
+
+**手动清理 session 池：**
+
+```python
+cfspider.close_session("example.com")   # 关闭指定域名的 session
+cfspider.close_all_sessions()           # 清空所有缓存 session
+```
+
+### StealthSession — 手动会话管理
+
+需要精细控制（自定义 delay、手动 Cookie 操作等）时，直接使用 `StealthSession`：
 
 ```python
 with cfspider.StealthSession() as sess:
     r1 = sess.get("https://example.com/page1")
     r2 = sess.get("https://example.com/page2")   # 自动带 Cookie + Referer
     print(f"请求次数: {sess.request_count}")
+    print(sess.get_cookies())
 ```
 
 ### 模式对比
 
-| | `stealth=True` | `browser=True` |
-|---|---|---|
-| JS 执行 | ✗ | ✅ |
-| 绕过 Turnstile | 部分 | ✅ |
-| 速度 | 快 | 慢 |
-| 截图 / js_eval | ✗ | ✅ |
-| 适合场景 | API、高频 | 动态页面、验证码 |
+| | 普通请求 | `stealth=True` | `browser=True` |
+|---|---|---|---|
+| JS 执行 | ✗ | ✗ | ✅ |
+| 真实 TLS 指纹 | ✗ | ✅ | ✅ |
+| 自动 session 复用 | ✗ | ✅（默认） | ✗ |
+| 绕过 Turnstile | ✗ | 部分 | ✅ |
+| 截图 / js_eval | ✗ | ✗ | ✅ |
+| 速度 | 最快 | 快 | 慢 |
+| 适合场景 | 普通 API | 反爬页面、高频 | 验证码、动态渲染 |
 
 ---
 
@@ -228,6 +260,7 @@ cfspider.request(method, url, **kwargs)
 | `static_ip` | bool | False | 固定 IP 模式 |
 | `two_proxy` | str | None | 双层代理 `host:port:user:pass` |
 | **`stealth`** | **bool** | **False** | **CloakBrowser HTTP 隐身（真实 TLS + Chrome 146 UA）** |
+| `no_sess` | bool | False | `stealth=True` 时禁用 session 复用，每次全新 session |
 | **`browser`** | **bool** | **False** | **CloakBrowser 完整渲染（执行 JS，可绕过 CAPTCHA）** |
 | `headless` | bool | True | 浏览器无头模式（False = 有头，可目视）|
 | `wait_until` | str | `'load'` | `load` / `domcontentloaded` / `networkidle` |
@@ -292,6 +325,23 @@ print(workers.url)
 r = cfspider.get("https://httpbin.org/ip",
                  cf_proxies="https://your-workers.dev",
                  uuid="your-uuid")
+```
+
+---
+
+## Session 管理工具
+
+| 函数 | 说明 |
+|------|------|
+| `cfspider.close_session(url_or_domain)` | 关闭并移除指定域名的自动 session |
+| `cfspider.close_all_sessions()` | 关闭并清空所有自动 session 缓存 |
+
+```python
+# 采集完一个网站后释放资源
+cfspider.close_session("example.com")
+
+# 程序退出前全部清理
+cfspider.close_all_sessions()
 ```
 
 ---
