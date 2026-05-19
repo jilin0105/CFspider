@@ -117,7 +117,7 @@ class Browser:
         >>> browser.close()
     """
     
-    def __init__(self, cf_proxies=None, headless=True, timeout=30, uuid=None, two_proxy=None):
+    def __init__(self, cf_proxies=None, headless=False, timeout=30, uuid=None, two_proxy=None):
         """
         初始化浏览器 / Initialize browser
         

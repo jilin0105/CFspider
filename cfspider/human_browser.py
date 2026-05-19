@@ -351,27 +351,20 @@ class HumanBrowser:
             x: 目标 x 坐标
             y: 目标 y 坐标
         """
-        if not self.human_like:
-            self._mouse_position = (x, y)
-            await self._send_command("Input.dispatchMouseEvent", {
-                "type": "mouseMoved",
-                "x": x,
-                "y": y
-            })
-            return
-        
-        # 生成贝塞尔曲线路径
-        path = _generate_bezier_path(
-            self._mouse_position,
-            (x, y),
-            num_points=random.randint(30, 60),
-            randomness=random.uniform(0.2, 0.4)
-        )
-        
-        # 沿路径移动
-        for px, py in path:
-            await self._page.mouse.move(px, py)
-            await asyncio.sleep(random.uniform(0.005, 0.02))
+        if not self.human_like or CLOAKBROWSER_AVAILABLE:
+            # CloakBrowser humanize=True 已在内部处理人类轨迹，直接调一次即可
+            await self._page.mouse.move(x, y)
+        else:
+            # Playwright fallback：手动贝塞尔曲线模拟
+            path = _generate_bezier_path(
+                self._mouse_position,
+                (x, y),
+                num_points=random.randint(30, 60),
+                randomness=random.uniform(0.2, 0.4)
+            )
+            for px, py in path:
+                await self._page.mouse.move(px, py)
+                await asyncio.sleep(random.uniform(0.005, 0.02))
         
         self._mouse_position = (x, y)
     
