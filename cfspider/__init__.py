@@ -140,7 +140,8 @@ from .stealth import (
     get_stealth_headers, get_random_browser_headers,
     random_delay, get_referer, update_sec_fetch_headers,
     BROWSER_PROFILES, SUPPORTED_BROWSERS as STEALTH_BROWSERS,
-    CHROME_HEADERS, FIREFOX_HEADERS, SAFARI_HEADERS, EDGE_HEADERS, CHROME_MOBILE_HEADERS
+    CHROME_HEADERS, FIREFOX_HEADERS, SAFARI_HEADERS, EDGE_HEADERS, CHROME_MOBILE_HEADERS,
+    close_all_sessions, close_session,
 )
 
 
@@ -278,6 +279,7 @@ __all__ = [
     "random_delay", "get_referer", "update_sec_fetch_headers",
     "BROWSER_PROFILES", "STEALTH_BROWSERS",
     "CHROME_HEADERS", "FIREFOX_HEADERS", "SAFARI_HEADERS", "EDGE_HEADERS", "CHROME_MOBILE_HEADERS",
+    "close_all_sessions", "close_session",
     # IP 地图可视化
     "IPMapCollector", "generate_map_html", "add_ip_record",
     "get_ip_collector", "clear_ip_records", "COLO_COORDINATES",

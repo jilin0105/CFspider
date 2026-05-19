@@ -364,7 +364,7 @@ class CFSpiderResponse:
 
 def request(method, url, cf_proxies=None, uuid=None, http2=False,
              map_output=False, map_file="cfspider_map.html",
-             stealth=False,
+             stealth=False, no_sess=False,
              browser=False, headless=True,
              wait_until='load', screenshot=None, js_eval=None,
              static_ip=False, two_proxy=None, **kwargs):
@@ -447,8 +447,13 @@ def request(method, url, cf_proxies=None, uuid=None, http2=False,
 
     # 隐身模式：CloakBrowser context.request（真实 TLS 指纹，无 JS 渲染）
     if stealth:
-        from .stealth import _cloak_single_request
-        return _cloak_single_request(method, url, cf_proxies=cf_proxies, uuid=uuid, two_proxy=two_proxy, **kwargs)
+        if no_sess:
+            from .stealth import _cloak_single_request
+            return _cloak_single_request(method, url, cf_proxies=cf_proxies, uuid=uuid, two_proxy=two_proxy, **kwargs)
+        else:
+            from .stealth import _get_auto_session
+            sess = _get_auto_session(url, cf_proxies=cf_proxies, uuid=uuid, two_proxy=two_proxy)
+            return sess._make_request(method, url, **kwargs)
 
     # 浏览器模式：CloakBrowser page.goto()（完整 JS 渲染，绕过 CAPTCHA）
     if browser:
@@ -979,7 +984,7 @@ def stop_vless_proxies():
 
 def get(url, cf_proxies=None, uuid=None, http2=False,
         map_output=False, map_file="cfspider_map.html",
-        stealth=False, browser=False, headless=True,
+        stealth=False, no_sess=False, browser=False, headless=True,
         wait_until='load', screenshot=None, js_eval=None,
         static_ip=False, two_proxy=None, **kwargs):
     """发送 GET 请求
@@ -1000,77 +1005,79 @@ def get(url, cf_proxies=None, uuid=None, http2=False,
     """
     return request("GET", url, cf_proxies=cf_proxies, uuid=uuid,
                    http2=http2, map_output=map_output, map_file=map_file,
-                   stealth=stealth, browser=browser, headless=headless,
+                   stealth=stealth, no_sess=no_sess, browser=browser, headless=headless,
                    wait_until=wait_until, screenshot=screenshot, js_eval=js_eval,
                    static_ip=static_ip, two_proxy=two_proxy, **kwargs)
 
 
 def post(url, cf_proxies=None, uuid=None, http2=False,
          map_output=False, map_file="cfspider_map.html",
-         stealth=False, browser=False, headless=True,
+         stealth=False, no_sess=False, browser=False, headless=True,
          wait_until='load', screenshot=None, js_eval=None,
          static_ip=False, two_proxy=None, **kwargs):
     """发送 POST 请求"""
     return request("POST", url, cf_proxies=cf_proxies, uuid=uuid,
                    http2=http2, map_output=map_output, map_file=map_file,
-                   stealth=stealth, browser=browser, headless=headless,
+                   stealth=stealth, no_sess=no_sess, browser=browser, headless=headless,
                    wait_until=wait_until, screenshot=screenshot, js_eval=js_eval,
                    static_ip=static_ip, two_proxy=two_proxy, **kwargs)
 
 
 def put(url, cf_proxies=None, uuid=None, http2=False,
         map_output=False, map_file="cfspider_map.html",
-        stealth=False, browser=False, headless=True,
+        stealth=False, no_sess=False, browser=False, headless=True,
         wait_until='load', screenshot=None, js_eval=None,
         static_ip=False, two_proxy=None, **kwargs):
     """发送 PUT 请求"""
     return request("PUT", url, cf_proxies=cf_proxies, uuid=uuid,
                    http2=http2, map_output=map_output, map_file=map_file,
-                   stealth=stealth, browser=browser, headless=headless,
+                   stealth=stealth, no_sess=no_sess, browser=browser, headless=headless,
                    wait_until=wait_until, screenshot=screenshot, js_eval=js_eval,
                    static_ip=static_ip, two_proxy=two_proxy, **kwargs)
 
 
 def delete(url, cf_proxies=None, uuid=None, http2=False,
            map_output=False, map_file="cfspider_map.html",
-           stealth=False, browser=False, headless=True,
+           stealth=False, no_sess=False, browser=False, headless=True,
            wait_until='load', screenshot=None, js_eval=None,
            static_ip=False, two_proxy=None, **kwargs):
     """发送 DELETE 请求"""
     return request("DELETE", url, cf_proxies=cf_proxies, uuid=uuid,
                    http2=http2, map_output=map_output, map_file=map_file,
-                   stealth=stealth, browser=browser, headless=headless,
+                   stealth=stealth, no_sess=no_sess, browser=browser, headless=headless,
                    wait_until=wait_until, screenshot=screenshot, js_eval=js_eval,
                    static_ip=static_ip, two_proxy=two_proxy, **kwargs)
 
 
 def head(url, cf_proxies=None, uuid=None, http2=False,
          map_output=False, map_file="cfspider_map.html",
-         stealth=False, static_ip=False, two_proxy=None, **kwargs):
+         stealth=False, no_sess=False, static_ip=False, two_proxy=None, **kwargs):
     """发送 HEAD 请求"""
     return request("HEAD", url, cf_proxies=cf_proxies, uuid=uuid,
                    http2=http2, map_output=map_output, map_file=map_file,
-                   stealth=stealth, static_ip=static_ip, two_proxy=two_proxy, **kwargs)
+                   stealth=stealth, no_sess=no_sess,
+                   static_ip=static_ip, two_proxy=two_proxy, **kwargs)
 
 
 def options(url, cf_proxies=None, uuid=None, http2=False,
             map_output=False, map_file="cfspider_map.html",
-            stealth=False, static_ip=False, two_proxy=None, **kwargs):
+            stealth=False, no_sess=False, static_ip=False, two_proxy=None, **kwargs):
     """发送 OPTIONS 请求"""
     return request("OPTIONS", url, cf_proxies=cf_proxies, uuid=uuid,
                    http2=http2, map_output=map_output, map_file=map_file,
-                   stealth=stealth, static_ip=static_ip, two_proxy=two_proxy, **kwargs)
+                   stealth=stealth, no_sess=no_sess,
+                   static_ip=static_ip, two_proxy=two_proxy, **kwargs)
 
 
 def patch(url, cf_proxies=None, uuid=None, http2=False,
           map_output=False, map_file="cfspider_map.html",
-          stealth=False, browser=False, headless=True,
+          stealth=False, no_sess=False, browser=False, headless=True,
           wait_until='load', screenshot=None, js_eval=None,
           static_ip=False, two_proxy=None, **kwargs):
     """发送 PATCH 请求"""
     return request("PATCH", url, cf_proxies=cf_proxies, uuid=uuid,
                    http2=http2, map_output=map_output, map_file=map_file,
-                   stealth=stealth, browser=browser, headless=headless,
+                   stealth=stealth, no_sess=no_sess, browser=browser, headless=headless,
                    wait_until=wait_until, screenshot=screenshot, js_eval=js_eval,
                    static_ip=static_ip, two_proxy=two_proxy, **kwargs)
 

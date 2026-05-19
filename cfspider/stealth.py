@@ -34,6 +34,7 @@ CFspider 隐身模式模块
 """
 
 import random
+import threading
 import time
 from typing import Optional, Dict, List, Tuple, Any
 from urllib.parse import urlparse, urlencode, urlunparse
@@ -490,9 +491,66 @@ class StealthSession:
 
 
 def _cloak_single_request(method: str, url: str, cf_proxies=None, uuid=None, two_proxy=None, **kwargs) -> Any:
-    """Single-shot CloakBrowser request (used by api.py stealth=True)"""
+    """Single-shot CloakBrowser request (used by api.py stealth=True no_sess=True)"""
     with StealthSession(cf_proxies=cf_proxies, uuid=uuid, two_proxy=two_proxy) as sess:
         return getattr(sess, method.lower())(url, **kwargs)
+
+
+# ──────────────────────────────────────────────────────────────
+# 自动 session 池：按 (domain, cf_proxies, uuid, two_proxy) 复用
+# ──────────────────────────────────────────────────────────────
+_AUTO_SESSION_POOL: Dict[tuple, "StealthSession"] = {}
+_POOL_LOCK = threading.Lock()
+
+
+def _pool_key(url: str, cf_proxies, uuid, two_proxy) -> tuple:
+    netloc = urlparse(url).netloc
+    cf_key = getattr(cf_proxies, 'url', None) or (str(cf_proxies) if cf_proxies else '')
+    return (netloc, cf_key, uuid or '', two_proxy or '')
+
+
+def _get_auto_session(url: str, cf_proxies=None, uuid=None, two_proxy=None) -> "StealthSession":
+    """Return the shared StealthSession for this domain, creating one if needed."""
+    key = _pool_key(url, cf_proxies, uuid, two_proxy)
+    with _POOL_LOCK:
+        sess = _AUTO_SESSION_POOL.get(key)
+        if sess is None:
+            sess = StealthSession(cf_proxies=cf_proxies, uuid=uuid, two_proxy=two_proxy)
+            _AUTO_SESSION_POOL[key] = sess
+        return sess
+
+
+def close_session(url_or_domain: str) -> bool:
+    """关闭并移除指定域名的自动 session。
+
+    Args:
+        url_or_domain: 目标 URL 或域名（如 "example.com" 或 "https://example.com/page"）
+
+    Returns:
+        True if a session was found and closed, False otherwise.
+    """
+    parsed = urlparse(url_or_domain)
+    netloc = parsed.netloc or url_or_domain
+    with _POOL_LOCK:
+        keys_to_del = [k for k in _AUTO_SESSION_POOL if k[0] == netloc]
+        for k in keys_to_del:
+            try:
+                _AUTO_SESSION_POOL[k].close()
+            except Exception:
+                pass
+            del _AUTO_SESSION_POOL[k]
+    return bool(keys_to_del)
+
+
+def close_all_sessions():
+    """关闭并清空所有自动 session 池。"""
+    with _POOL_LOCK:
+        for sess in _AUTO_SESSION_POOL.values():
+            try:
+                sess.close()
+            except Exception:
+                pass
+        _AUTO_SESSION_POOL.clear()
 
 
 class _BrowserPageResponse:
