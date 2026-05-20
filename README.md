@@ -400,6 +400,10 @@ print(r.text)
 
 **国内无法直连？** 使用 [`two_proxy`](https://github.com/violettoolssite/CFspider#%E5%8F%82%E6%95%B0%E5%88%97%E8%A1%A8) 双层代理：`cfspider.get(url, proxies=proxies, two_proxy="host:port:user:pass")`
 
+**专属优惠码：CFspider**（输入可获 10% 折扣）
+
+![Thordata 专属优惠码](专属优惠码.png)
+
 ---
 
 ## 部署 Workers
