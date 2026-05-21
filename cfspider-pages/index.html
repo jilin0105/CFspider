@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CFspider - 强大的 Cloudflare Workers 代理 IP 池与 CloakBrowser 深度反检测框架">
+  <title>CFspider | 下一代智能反检测爬虫框架</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <div class="logo">
+        <span class="logo-text">CFspider</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#features">核心特性</a></li>
+        <li><a href="#demo">代码演示</a></li>
+        <li><a href="#partners">推荐伙伴</a></li>
+        <li><a href="https://github.com/violettoolssite/CFspider" target="_blank" class="btn btn-outline">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 首屏区域 -->
+  <header class="hero">
+    <div class="container hero-content">
+      <div class="hero-badge">v1.9.4 全新发布</div>
+      <h1 class="hero-title">
+        突破限制的 <span class="text-gradient">反检测爬虫框架</span>
+      </h1>
+      <p class="hero-subtitle">
+        基于 Cloudflare Workers 的海量免费代理 IP 池，配合 C++ 源码级定制的 CloakBrowser，<br>
+        轻松无视 5s 盾、人机验证与高强度反爬防护。
+      </p>
+      <div class="hero-actions">
+        <a href="https://github.com/violettoolssite/CFspider" target="_blank" class="btn btn-primary">开始使用 (GitHub)</a>
+        <a href="#features" class="btn btn-secondary">了解更多</a>
+      </div>
+      <div class="hero-command">
+        <div class="cmd-box">
+          <span class="cmd-prompt">$</span>
+          <span class="cmd-text">pip install cfspider cloakbrowser</span>
+          <button class="copy-btn" data-clipboard-text="pip install cfspider cloakbrowser">复制</button>
+        </div>
+      </div>
+    </div>
+    <div class="hero-background"></div>
+  </header>
+
+  <!-- 核心特性 -->
+  <section id="features" class="features">
+    <div class="container">
+      <h2 class="section-title">重塑数据抓取的<span class="text-gradient">核心特性</span></h2>
+      <div class="features-grid">
+        <div class="feature-card glass">
+          <div class="icon-box icon-purple"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></div>
+          <h3>海量边缘代理 IP 池</h3>
+          <p>基于 Cloudflare Workers 构建，覆盖全球 300+ 节点，支持 VLESS/HTTP 双模式。每次请求动态切换 IP，彻底解决 IP 封禁难题。</p>
+        </div>
+        <div class="feature-card glass">
+          <div class="icon-box icon-blue"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+          <h3>CloakBrowser 深度反检测</h3>
+          <p>C++ 源码级 Chromium 补丁，提供真实 TLS 指纹与 UA。一行代码开启 `stealth=True`，绕过极验、Turnstile、5s 盾等顶级防护。</p>
+        </div>
+        <div class="feature-card glass">
+          <div class="icon-box icon-green"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg></div>
+          <h3>AI 智能浏览器</h3>
+          <p>内置 cfspider-browser（Electron+React），支持自然语言指令控制。像真人一样自动浏览、搜索、点击，内置多模型视觉分析。</p>
+        </div>
+        <div class="feature-card glass">
+          <div class="icon-box icon-pink"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
+          <h3>高性能异步并发</h3>
+          <p>原生支持 asyncio，内置 StealthSession 连接池管理。海量并发请求下依然保持极低的资源占用和毫秒级响应速度。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 代码演示 -->
+  <section id="demo" class="demo">
+    <div class="container">
+      <div class="demo-wrapper glass">
+        <div class="demo-text">
+          <h2 class="section-title text-left">优雅，仅需一行代码</h2>
+          <p>告别繁琐的 Headers 伪造、Cookie 管理和重试逻辑。CFspider 将最复杂的反检测机制封装成了最简单的 API。</p>
+          <ul class="demo-list">
+            <li>✔️ 自动维护请求 Session</li>
+            <li>✔️ 智能通过 TLS 指纹校验</li>
+            <li>✔️ 无头与有头模式无缝切换</li>
+          </ul>
+        </div>
+        <div class="demo-code">
+          <div class="mac-window">
+            <div class="mac-header">
+              <span class="mac-btn close"></span>
+              <span class="mac-btn min"></span>
+              <span class="mac-btn max"></span>
+            </div>
+            <pre><code class="language-python">import cfspider
+
+<span class="comment"># HTTP 级隐身：真实 TLS 指纹 + UA</span>
+r = cfspider.get("https://protected-api.com", stealth=True)
+print(r.json())
+
+<span class="comment"># 浏览器级隐身：执行 JS，绕过验证码</span>
+r = cfspider.get("https://secure-site.com", browser=True)
+print(r.text)
+
+<span class="comment"># 配合 Workers 代理池使用</span>
+r = cfspider.get("https://example.com", 
+                 cf_proxies="https://my-workers.dev", 
+                 stealth=True)</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- 推荐伙伴 -->
+  <section id="partners" class="partners">
+    <div class="container">
+      <h2 class="section-title">推荐生态合作伙伴</h2>
+      <div class="partners-grid">
+        <a href="https://dashboard.thordata.com/zh/register?invitation_code=CSSNEZF2" target="_blank" class="partner-card glass">
+          <div class="partner-logo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> Thordata 住宅代理</div>
+          <p class="partner-desc"><strong>1 亿+ 真人纯净 IP</strong>，搭配 CFspider 实现终极无痕采集。结账输入 <code>CFspider</code> 享 10% 专属折扣！</p>
+          <span class="partner-cta">了解详情 &rarr;</span>
+        </a>
+        <a href="https://siusn-sisjxl.top/#/register?code=aVDxxRS0" target="_blank" class="partner-card glass">
+          <div class="partner-logo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> VPN Cheap</div>
+          <p class="partner-desc">如果你需要稳定翻墙，我们强烈推荐 VPN Cheap。填写邀请码 <code>aVDxxRS0</code> 可获免费 5GB/月高速流量。</p>
+          <span class="partner-cta">了解详情 &rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <h3>CFspider</h3>
+        <p>下一代智能反检测爬虫框架。</p>
+      </div>
+      <div class="footer-links">
+        <h4>快速链接</h4>
+        <a href="https://github.com/violettoolssite/CFspider">GitHub 仓库</a>
+        <a href="https://pypi.org/project/cfspider/">PyPI 主页</a>
+        <a href="https://b23.tv/1uzOf7M">视频教程</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 CFspider. 开源项目，请遵守当地法律法规。</p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
