@@ -1,4 +1,4 @@
-﻿# CFspider
+# CFspider
 
 [![PyPI version](https://img.shields.io/pypi/v/cfspider)](https://pypi.org/project/cfspider/)
 [![Python](https://img.shields.io/pypi/pyversions/cfspider)](https://pypi.org/project/cfspider/)
@@ -27,7 +27,7 @@
 >
 > **如果你需要爬虫代理 IP，推荐以下服务：**
 > - **Thordata**：[https://thordata.com/](https://thordata.com/) — 住宅代理 IP，支持多语言 SDK 集成，高匿名稳定（[查看集成方案](#代理-ip-集成方案)）
->   - 💰 **专属优惠码 `CFspider`，输入可获 10% 折扣**
+>   - 💰 **专属优惠码 `CFspider`，输入可获 10% 折扣**，[👉 点击注册](https://dashboard.thordata.com/zh/register?invitation_code=CSSNEZF2)
 > - **Cliproxy**：[https://dash.cliproxy.com/](https://dash.cliproxy.com/) — 爬虫 HTTP/SOCKS5，高速稳定
 > - **1024proxy**：[https://1024proxy.com/](https://1024proxy.com/) — 住宅 IP，低至 $0.49/GB
 > - **Novproxy**：[https://novproxy.com/](https://novproxy.com/) — 1 亿+ 住宅 IP，90 国家，$0.5/GB
@@ -403,7 +403,7 @@ print(r.text)
 
 **国内无法直连？** 使用 [`two_proxy`](https://github.com/violettoolssite/CFspider#%E5%8F%82%E6%95%B0%E5%88%97%E8%A1%A8) 双层代理：`cfspider.get(url, proxies=proxies, two_proxy="host:port:user:pass")`
 
-**专属优惠码：CFspider**（输入可获 10% 折扣）
+**专属优惠码：CFspider**（输入可获 10% 折扣），[👉 点击注册](https://dashboard.thordata.com/zh/register?invitation_code=CSSNEZF2)
 
 ![Thordata 专属优惠码](专属优惠码.png)
 
