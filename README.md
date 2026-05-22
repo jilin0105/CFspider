@@ -26,10 +26,7 @@
 > - **CF 官方封禁 VLESS Workers（错误代码 1101）**：Cloudflare 已开始主动检测并封禁通过 Worker 建立的 VLESS 隧道，越来越多用户遇到 1101 错误
 >
 > **如果你执意要折腾 CF 节点**，这里有一批免费 VLESS / Trojan / SS 配置，每 **20 分钟**自动刷新，复制即可导入客户端：
-> 📥 [下载配置文件](vless-configs.txt) | 📋 订阅链接（客户端一键导入）：
-> ```
-> https://raw.githubusercontent.com/violettoolssite/CFspider/main/vless-configs.txt
-> ```
+> 📥 [下载配置文件](vless-configs.txt)
 > 配置来源：[igareck/vpn-configs-for-russia](https://github.com/igareck/vpn-configs-for-russia)
 >
 > **如果你需要稳定翻墙，我们强烈推荐 [VPN Cheap](https://siusn-sisjxl.top/#/register?code=aVDxxRS0)**  
