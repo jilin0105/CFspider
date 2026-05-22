@@ -3,6 +3,32 @@
 [![PyPI version](https://img.shields.io/pypi/v/cfspider)](https://pypi.org/project/cfspider/)
 [![Python](https://img.shields.io/pypi/pyversions/cfspider)](https://pypi.org/project/cfspider/)
 [![License](https://img.shields.io/github/license/violettoolssite/CFspider)](LICENSE)
+[![Update VLESS Configs](https://github.com/violettoolssite/CFspider/actions/workflows/update-vless-configs.yml/badge.svg)](https://github.com/violettoolssite/CFspider/actions/workflows/update-vless-configs.yml)
+
+## Cloudflare 节点配置（VLESS 免费节点）
+
+> 本区域提供可直接复制导入的 VLESS / Trojan / SS 节点配置，每 **20 分钟**自动刷新。
+>
+> 配置来源：[igareck/vpn-configs-for-russia](https://github.com/igareck/vpn-configs-for-russia)
+
+### 使用方法
+
+1. 复制下方配置（或直接下载 [`vless-configs.txt`](vless-configs.txt)）
+2. 导入到支持 VLESS 的客户端（v2rayN / Clash / NekoBox / Hiddify 等）
+3. 配置每天自动更新，无需手动操作
+
+### 最新配置
+
+<!-- VLESS_CONFIGS_START -->
+> 配置文件每 20 分钟由 GitHub Actions 自动更新，[点击查看完整配置](vless-configs.txt)
+>
+> 或直接复制订阅链接导入客户端：
+> ```
+> https://raw.githubusercontent.com/violettoolssite/CFspider/main/vless-configs.txt
+> ```
+<!-- VLESS_CONFIGS_END -->
+
+---
 
 **v1.9.4** — Cloudflare Workers 免费代理 IP 池 + CloakBrowser 深度反检测
 
@@ -194,6 +220,8 @@ r = cfspider.get("https://httpbin.org/ip",
                  cf_proxies="https://your-workers.dev",
                  two_proxy="proxy.example.com:3010:user:pass")
 ```
+
+---
 
 ---
 

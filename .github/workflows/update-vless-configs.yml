@@ -1,0 +1,26 @@
+name: Update VLESS Configs
+
+on:
+  schedule:
+    - cron: '*/20 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-configs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch latest VLESS configs
+        run: curl -sf "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/BLACK_VLESS_RUS_mobile.txt" -o vless-configs.txt
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add vless-configs.txt
+          git diff --cached --quiet || git commit -m "chore: update VLESS configs ($(date -u '+%Y-%m-%d %H:%M UTC'))"
+          git push
